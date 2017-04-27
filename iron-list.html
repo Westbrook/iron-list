@@ -1603,6 +1603,36 @@ will only render 20.
     },
 
     /**
+     * Select the array of list items provided or
+	 * select the entire list.
+     *
+     * @method selectBatch
+     * @param {array} items The array of item objects or indexes
+     */
+	selectBatch: function(items) {
+	  var item = {};
+	  var model = {};
+	  var skey = '';
+	  var icol = Polymer.Collection.get(this.$.selector.items);
+	  var key = '';
+	  items = items || this.items;
+	  this.clearSelection();
+	  this.$.selector.set('selected', items);
+	  this.$.list.$.selector._selectedColl = Polymer.Collection.get(this.$.selector.selected);
+	  for (var i = 0, l = items.length; i < l; i++) {
+	    item = this._getNormalizedItem(items[i]);
+	    model = this._getModelFromItem(item);
+	    if (model) {
+	      model[this.selectedAs] = true;
+	    }
+	    key = icol.getKey(item);
+	    skey = this.$.selector._selectedColl.getKey(item);
+	    this.$.selector.linkPaths("selected." + skey, "items." + key);
+	    this.updateSizeForItem(item);
+	  }
+	},
+
+    /**
      * Deselects the given item list if it is already selected.
      *
 
