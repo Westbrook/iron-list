@@ -1616,11 +1616,14 @@ will only render 20.
 	  var icol = Polymer.Collection.get(this.$.selector.items);
 	  var key = '';
 	  items = items || this.items;
+	  items = items.map(function(item) {
+		return this._getNormalizedItem(item);
+	  }.bind(this));
 	  this.clearSelection();
 	  this.$.selector.set('selected', items);
 	  this.$.selector._selectedColl = Polymer.Collection.get(this.$.selector.selected);
 	  for (var i = 0, l = items.length; i < l; i++) {
-	    item = this._getNormalizedItem(items[i]);
+	    item = items[i];
 	    model = this._getModelFromItem(item);
 	    if (model) {
 	      model[this.selectedAs] = true;
