@@ -434,8 +434,10 @@ will only render 20.
     ],
 
     keyBindings: {
-      'up': '_didMoveUp',
-      'down': '_didMoveDown',
+      'up': '_didMoveBackward',
+      'down': '_didMoveForward',
+      'left': '_didMoveLeft',
+      'right': '_didMoveRight',
       'enter': '_didEnter'
     },
 
@@ -1922,15 +1924,29 @@ will only render 20.
       }
     },
 
-    _didMoveUp: function() {
-      this._focusPhysicalItem(this._focusedIndex - 1);
+    _didMoveBackward: function(e, step) {
+      step = step || (!this.grid) ? 1 : this._itemsPerRow;
+      this._focusPhysicalItem(this._focusedIndex - step);
     },
 
-    _didMoveDown: function(e) {
+    _didMoveForward: function(e, step) {
+      step = step || (!this.grid) ? 1 : this._itemsPerRow;
       // disable scroll when pressing the down key
-      e.detail.keyboardEvent.preventDefault();
-      this._focusPhysicalItem(this._focusedIndex + 1);
+	  if (e.detail.keyboardEvent.keyCode == 40) e.detail.keyboardEvent.preventDefault();
+      this._focusPhysicalItem(this._focusedIndex + step);
     },
+
+    _didMoveLeft: function(e) {
+      if (!this.grid) return;
+      if (this._isRTL) this._didMoveForward(e, 1);
+      else this._didMoveBackward(e, 1);
+	},
+
+	_didMoveRight: function(e) {
+      if (!this.grid) return;
+      if (this._isRTL) this._didMoveBackward(e, 1);
+      else this._didMoveForward(e, 1);
+	},
 
     _didEnter: function(e) {
       this._focusPhysicalItem(this._focusedIndex);
