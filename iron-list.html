@@ -1618,7 +1618,7 @@ will only render 20.
 	  items = items || this.items;
 	  this.clearSelection();
 	  this.$.selector.set('selected', items);
-	  this.$.list.$.selector._selectedColl = Polymer.Collection.get(this.$.selector.selected);
+	  this.$.selector._selectedColl = Polymer.Collection.get(this.$.selector.selected);
 	  for (var i = 0, l = items.length; i < l; i++) {
 	    item = this._getNormalizedItem(items[i]);
 	    model = this._getModelFromItem(item);
