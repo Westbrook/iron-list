@@ -1536,6 +1536,9 @@ will only render 20.
      * when the element is resized.
      */
     _resizeHandler: function() {
+	  // clear cached visible index.
+	  this._firstVisibleIndexVal = null;
+	  this._lastVisibleIndexVal = null;
       this._debounceTemplate(function() {
         // Skip the resize event on touch devices when the address bar slides up.
         var delta = Math.abs(this._viewportHeight - this._scrollTargetHeight);
@@ -1930,7 +1933,7 @@ will only render 20.
         }
       }
     },
-	
+
     _didMoveBackward: function() {
       // When `grid === true` the `downArrow` goes forward `this._itemsPerRow` items
       this._focusPhysicalItem(this._focusedIndex - (this.grid ? this._itemsPerRow : 1));
