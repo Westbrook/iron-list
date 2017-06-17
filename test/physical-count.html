@@ -94,6 +94,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           done();
         });
       });
+
+      test('last visible items should change on resize', function(done) {
+        flush(function() {
+          list.style.display = '';
+          list.fire('iron-resize');
+          PolymerFlush();
+          assert.equal(list.lastVisibleIndex, 49, 'The 50th item should be visible.');
+          container.listHeight = 300;
+          list.fire('iron-resize');
+          PolymerFlush();
+          assert.equal(list.lastVisibleIndex, 74, 'The last visible item should have changed.')
+          done();
+        });
+      });
+
+      test('first visible items should change on resize when scrolled to the end of the list', function(done) {
+        flush(function() {
+          list.style.display = '';
+          list.fire('iron-resize');
+          list.scrollToIndex(199);
+          PolymerFlush();
+          assert.equal(list.lastVisibleIndex, 199, 'Scroll is maxed out.');
+          assert.equal(list.firstVisibleIndex, 151, 'The first visisble index in appropriately set.');
+          container.listHeight = 300;
+          list.fire('iron-resize');
+          PolymerFlush();
+          assert.equal(list.firstVisibleIndex, 124, 'The first visible item should have changed.')
+          done();
+        });
+      });
     });
 
   </script>
