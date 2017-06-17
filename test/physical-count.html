@@ -104,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           container.listHeight = 300;
           list.fire('iron-resize');
           PolymerFlush();
-          assert.equal(list.lastVisibleIndex, 74, 'The last visible item should have changed.')
+          assert.equal(list.lastVisibleIndex, 74, 'The last visible changed as expected.')
           done();
         });
       });
@@ -116,11 +116,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           list.scrollToIndex(199);
           PolymerFlush();
           assert.equal(list.lastVisibleIndex, 199, 'Scroll is maxed out.');
-          assert.equal(list.firstVisibleIndex, 151, 'The first visisble index in appropriately set.');
+          assert.equal(list.firstVisibleIndex, 150, 'The first visible index is appropriately set.');
           container.listHeight = 300;
           list.fire('iron-resize');
           PolymerFlush();
-          assert.equal(list.firstVisibleIndex, 124, 'The first visible item should have changed.')
+          assert.equal(list.lastVisibleIndex, 199, 'Scroll is maxed out.');
+          assert.equal(list.firstVisibleIndex, 125, 'The first visible item changed as expected.')
           done();
         });
       });
