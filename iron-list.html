@@ -1082,9 +1082,9 @@ will only render 20.
 
     _gridChanged: function(newGrid, oldGrid) {
       if (typeof oldGrid === 'undefined') return;
-      this.fire('iron-resize');
+      this.notifyResize();
       Polymer.flush ? Polymer.flush() : Polymer.dom.flush();
-      this._updateGridMetrics();
+      newGrid && this._updateGridMetrics();
     },
 
     /**
@@ -1186,6 +1186,7 @@ will only render 20.
       // remove the current focused item
       if (this._focusedItem && this.modelForElement(this._focusedItem)[this.as] === item) {
         this._removeFocusedItem();
+        document.activeElement && document.activeElement.blur && document.activeElement.blur();
       }
     },
 
@@ -1772,7 +1773,6 @@ will only render 20.
       this._focusedItem = null;
       this._focusedVirtualIndex = -1;
       this._focusedPhysicalIndex = -1;
-      document.activeElement && document.activeElement.blur && document.activeElement.blur();
     },
 
     _createFocusBackfillItem: function() {
